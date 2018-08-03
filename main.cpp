@@ -20,7 +20,7 @@ struct point
 
 int main()
 {
-    srand(time());
+    srand(time(0));
 
     RenderWindow app(VideoMode(400, 533), "Doodle Game!");
     app.setFramerateLimit(90);
@@ -78,11 +78,11 @@ int main()
         }
     }
 	if (y<h)
-    for (int i=0;i<20;i++)
+    for (int i=0;i<10;i++)
     {
       y=h;
       plat[i].y = plat[i].y - dy;
-      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%800;}
+      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%400;}
     }
 
 	for (int i=0;i<10;i++)
@@ -104,7 +104,7 @@ int main()
 	sPers.setPosition(x,y);
     app.draw(sBackground);
     app.draw(sPers);
-    for (int i=0;i<9;i++)
+    for (int i=0;i<10;i++)
     {
     sPlat.setPosition(plat[i].x,plat[i].y);
     app.draw(sPlat);
