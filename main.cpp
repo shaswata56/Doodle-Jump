@@ -1,6 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include <time.h>
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
 using namespace sf;
 
 struct point
@@ -10,11 +20,11 @@ struct point
 
 int main()
 {
-    srand(time(0));
+    srand(time());
 
     RenderWindow app(VideoMode(400, 533), "Doodle Game!");
     app.setFramerateLimit(90);
-
+    int score=0;
     Texture t1,t2,t3,t4;
     t1.loadFromFile("images/background.png");
     t2.loadFromFile("images/platform.png");
@@ -50,14 +60,14 @@ int main()
     y+=dy;
     if (y>500)
     {
-        app.draw(sOver);
+        //app.draw(sOver);
         Text text;
         Font font;
         font.loadFromFile("arial.ttf");
         text.setFont(font);
-        text.setString("           Press R to Restart\n         Press ENTER to Close");
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::Green);
+        text.setString("\n            GAME OVER!!!\n           Press R to Restart\n         Press ENTER to Close\n");
+        text.setCharacterSize(25);
+        text.setFillColor(sf::Color::Red);
         text.setStyle(sf::Text::Bold);
         app.draw(text);
         if (Keyboard::isKeyPressed(Keyboard::Enter) || Keyboard::isKeyPressed(Keyboard::Space)) app.close();
@@ -71,19 +81,30 @@ int main()
     for (int i=0;i<20;i++)
     {
       y=h;
-      plat[i].y=plat[i].y-dy;
-      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%400;}
+      plat[i].y = plat[i].y - dy;
+      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%800;}
     }
 
 	for (int i=0;i<10;i++)
     if ((x+50>plat[i].x) && (x+20<plat[i].x+68) && (y+70>plat[i].y) && (y+70<plat[i].y+14) && (dy>0))
     {
-            dy=-10;
+        score++;
+        dy=-10;
     }
+    Text text;
+        Font font;
+        font.loadFromFile("arial.ttf");
+        text.setFont(font);
+        std::string str_score = "SCORE:" + patch::to_string(score);
+        text.setString(str_score);
+        text.setCharacterSize(24);
+        text.setFillColor(sf::Color::Black);
+        text.setStyle(sf::Text::Bold);
+        app.draw(text);
 	sPers.setPosition(x,y);
     app.draw(sBackground);
     app.draw(sPers);
-    for (int i=0;i<10;i++)
+    for (int i=0;i<9;i++)
     {
     sPlat.setPosition(plat[i].x,plat[i].y);
     app.draw(sPlat);
