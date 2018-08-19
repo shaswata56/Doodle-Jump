@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <bits/stdc++.h>
-#include <time.h>
 
 namespace patch
 {
@@ -25,15 +25,24 @@ int main()
     RenderWindow app(VideoMode(400, 533), "Doodle Game!");
     app.setFramerateLimit(90);
     int score=0;
-    Texture t1,t2,t3,t4;
+    SoundBuffer buffer,die;
+
+    Texture t1,t2,t3;
     t1.loadFromFile("images/background.png");
     t2.loadFromFile("images/platform.png");
     t3.loadFromFile("images/doodle.png");
-    t4.loadFromFile("images/over.png");
 
-    Sprite sBackground(t1), sPlat(t2), sPers(t3), sOver(t4);
+    buffer.loadFromFile("aud/jump.wav");
+    die.loadFromFile("aud/fall.wav");
+
+    Sprite sBackground(t1), sPlat(t2), sPers(t3) ;
+
+    Sound sound,sdie;
+    sound.setBuffer(buffer);
+    sdie.setBuffer(die);
 
     point plat[20];
+    int cnt=0;
 
     for (int i=0;i<10;i++)
       {
@@ -58,9 +67,10 @@ int main()
 
     dy+=0.2;
     y+=dy;
-    if (y>500)
+
+    if (y>510)
     {
-        //app.draw(sOver);
+        cnt++;
         Text text;
         Font font;
         font.loadFromFile("arial.ttf");
@@ -70,7 +80,9 @@ int main()
         text.setFillColor(sf::Color::Red);
         text.setStyle(sf::Text::Bold);
         app.draw(text);
-        if (Keyboard::isKeyPressed(Keyboard::Enter) || Keyboard::isKeyPressed(Keyboard::Space)) app.close();
+        if(cnt==1) sdie.play();
+
+        if (Keyboard::isKeyPressed(Keyboard::Return) || Keyboard::isKeyPressed(Keyboard::Space)) app.close();
         else if(Keyboard::isKeyPressed(Keyboard::R))
         {
             app.close();
@@ -88,6 +100,7 @@ int main()
 	for (int i=0;i<10;i++)
     if ((x+50>plat[i].x) && (x+20<plat[i].x+68) && (y+70>plat[i].y) && (y+70<plat[i].y+14) && (dy>0))
     {
+        sound.play();
         score++;
         dy=-10;
     }
