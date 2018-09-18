@@ -16,7 +16,19 @@ using namespace sf;
 struct point
 {
     int x,y;
-};
+}plat[20];
+
+void jump()
+{
+	for (int i=0;i<10;i++)
+      {
+       plat[i].x=rand_r()%400;
+       plat[i].y=rand_r()%533;
+      }
+
+	int x=100,y=100,h=200;
+    	float dy=0;
+}
 
 int main()
 {
@@ -41,17 +53,10 @@ int main()
     sound.setBuffer(buffer);
     sdie.setBuffer(die);
 
-    point plat[20];
     int cnt=0;
-
-    for (int i=0;i<10;i++)
-      {
-       plat[i].x=rand_r()%400;
-       plat[i].y=rand_r()%533;
-      }
-
-	int x=100,y=100,h=200;
-    float dy=0;
+    jump();
+    x=100,y=100,h=200;
+    dy=0;
 
     while (app.isOpen())
     {
@@ -105,16 +110,16 @@ int main()
         dy=-10;
     }
     Text text;
-        Font font;
-        font.loadFromFile("arial.ttf");
-        text.setFont(font);
-        std::string str_score = "SCORE:" + patch::to_string(score);
-        text.setString(str_score);
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::Black);
-        text.setStyle(sf::Text::Bold);
-        app.draw(text);
-	sPers.setPosition(x,y);
+    Font font;
+    font.loadFromFile("arial.ttf");
+    text.setFont(font);
+    std::string str_score = "SCORE:" + patch::to_string(score);
+    text.setString(str_score);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Black);
+    text.setStyle(sf::Text::Bold);
+    app.draw(text);
+    sPers.setPosition(x,y);
     app.draw(sBackground);
     app.draw(sPers);
     for (int i=0;i<10;i++)
