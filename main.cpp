@@ -46,8 +46,8 @@ int main()
 
     for (int i=0;i<10;i++)
       {
-       plat[i].x=rand()%400;
-       plat[i].y=rand()%533;
+       plat[i].x=rand_r()%400;
+       plat[i].y=rand_r()%533;
       }
 
 	int x=100,y=100,h=200;
@@ -94,7 +94,7 @@ int main()
     {
       y=h;
       plat[i].y = plat[i].y - dy;
-      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand()%400;}
+      if (plat[i].y>533) {plat[i].y=0; plat[i].x=rand_r()%400;}
     }
 
 	for (int i=0;i<10;i++)
